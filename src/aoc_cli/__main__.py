@@ -9,7 +9,7 @@ from .utils import get_default_year, guess_language
 
 def parse_args(languages: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers(dest="command")
+    subparsers = parser.add_subparsers(dest="command", required=True)
     init_parser = subparsers.add_parser('init', help='Initialise an advent of code project/folder.')
     
     init_parser.add_argument('location', type=str, help="where to scaffold project.", default=".")
@@ -100,7 +100,6 @@ def main() -> None:
     else:
         location = Path()
     
-
     if args.command == "init":
         print(plugins)
         handle_init(plugins=plugins, year=args.year, language=args.language, location=location)
