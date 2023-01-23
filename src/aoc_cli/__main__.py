@@ -2,8 +2,9 @@ import argparse
 from pathlib import Path
 from importlib.metadata import entry_points
 
-from .utils import get_default_year, guess_language
 from dotenv import load_dotenv
+
+from .utils import get_default_year, guess_language
 
 
 def parse_args(languages: list[str]) -> argparse.Namespace:
