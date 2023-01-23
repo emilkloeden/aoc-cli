@@ -39,7 +39,7 @@ def is_init_valid(args) -> bool:
     return True
 
 def load_plugins():
-    plugins = entry_points(group="aoc.plugins")
+    plugins = entry_points(group="aoc_cli.plugins")
     return [plugin.load() for plugin in plugins]
 
 
