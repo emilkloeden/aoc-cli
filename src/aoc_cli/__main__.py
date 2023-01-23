@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 from importlib.metadata import entry_points
 
-from aoc.utils import get_default_year, guess_language
+from .utils import get_default_year, guess_language
 from dotenv import load_dotenv
 
 

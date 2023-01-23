@@ -1,8 +1,6 @@
 from datetime import datetime
 from pathlib import Path
 
-from importlib.machinery import SourceFileLoader
-
 REQUIRED_ATTRS_IN_PLUGIN = {
     "Initialiser",
     "Getter",
