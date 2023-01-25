@@ -74,18 +74,18 @@ def handle_get(plugin, location: Path=None) -> None:
     g = plugin.Getter(location)
     g.get_input()
 
-def handle_run(plugin, part: int) -> None:
-    r = plugin.Runner(part)
+def handle_run(plugin, part: int, location: Path=None) -> None:
+    r = plugin.Runner(part, location)
     r.run()
 
 
-def handle_submit(plugin, part: int) -> None:
-    s = plugin.Submitter(part)   
+def handle_submit(plugin, part: int, location: Path=None) -> None:
+    s = plugin.Submitter(part, location)   
     s.submit()
 
 
-def handle_open(plugin) -> None:
-    o = plugin.Opener()
+def handle_open(plugin, location: Path=None) -> None:
+    o = plugin.Opener(location)
     o.open()
 
 
