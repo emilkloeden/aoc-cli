@@ -1,14 +1,6 @@
 from datetime import datetime
 from pathlib import Path
 
-REQUIRED_ATTRS_IN_PLUGIN = {
-    "Initialiser",
-    "Getter",
-    "Submitter",
-    "Runner",
-    "Opener",
-}
-
 
 def get_default_year():
     now = datetime.today()

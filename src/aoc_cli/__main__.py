@@ -1,8 +1,9 @@
+import os
 import argparse
 from pathlib import Path
 from importlib.metadata import entry_points
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
 from .utils import get_default_year, guess_language
 
@@ -17,15 +18,18 @@ def parse_args(languages: list[str]) -> argparse.Namespace:
     init_parser.add_argument('--language', choices=languages, default='python')
 
     get_parser = subparsers.add_parser('get', help="Get input file, requires AOC_SESSION environment variable.")
-    get_parser.add_argument('--location', type=str, help="Which input to download and where", default=".")
+    get_parser.add_argument('--location', type=str, help="Which input to download and where")
     
     run_parser = subparsers.add_parser('run', help="execute a part processor in the current directory.")
     run_parser.add_argument('part', type=int, choices=(1,2))
+    run_parser.add_argument('--location', type=str, help="Folder from within which to run")
 
     submit_parser = subparsers.add_parser('submit', help="Submit an answer, requires AOC_SESSION environment variable.")
     submit_parser.add_argument('part', type=int, choices=(1,2))
+    submit_parser.add_argument('--location', type=str, help="Folder from within which to submit")
 
     open_parser = subparsers.add_parser('open', help="Open a webbrowser to the day in question.")
+    open_parser.add_argument('--location', type=str, help="Specify day to open in browser")
 
     
 
@@ -56,9 +60,9 @@ def handle_init(plugins, year: int, language: str, location: Path) -> None:
     in accordance with the Initialiser class of the respective {language} plugin.
 
     Args:
-        year (int): _description_
-        language (str): _description_
-        location (Path): _description_
+        year (int): year to scaffold
+        language (str): language to use
+        location (Path): destination folder
     """
     plugin = select_plugin(plugins, language)
     i = plugin.Initialiser(year, location)
@@ -90,18 +94,19 @@ def handle_open(plugin, location: Path=None) -> None:
 
 
 def main() -> None:
-    load_dotenv()
     plugins = load_plugins()
     available_scaffolders = [p.__language__ for p in plugins if hasattr(p, "__language__")]
     args = parse_args(languages=available_scaffolders)
     
-    if hasattr(args, "location"):
+    if args.location:
         location = Path(args.location)
     else:
         location = Path()
     
+    dot_env_file = find_dotenv(usecwd=True)
+    load_dotenv(dot_env_file)
+    
     if args.command == "init":
-        print(plugins)
         handle_init(plugins=plugins, year=args.year, language=args.language, location=location)
     else:
         # The following commands are all location aware which means their handlers need to
